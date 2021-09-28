@@ -69,4 +69,16 @@ public class CC1 {
    public Integer getInteger(Integer n) {
 	   return Integer.valueOf(n.intValue() + 1);
    }
+
+   @Path("long")
+   @GET
+   public long getLong(long n) {
+	   return n + 1;
+   }
+
+   @Path("Long")
+   @GET
+   public Long getLongWrapper(Long n) {
+	   return Long.valueOf(n.longValue() + 1);
+   }
 }
