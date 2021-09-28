@@ -46,26 +46,27 @@ public class CC1 {
       return new CC4(cc2.s, cc5);
    }
 
-//   @Path("start")
-//   @GET
-//   public void start() {
-//      try {
-//         server = new CC1_Server();
-//         server.start();
-//      } catch (Exception e) {
-//         e.printStackTrace();
-//      }
-//   }
-//
-//   @Path("stop")
-//   @GET
-//   public void stop() {
-//      if (server != null) {
-//         try {
-//            server.stop();
-//         } catch (InterruptedException e) {
-//            e.printStackTrace();
-//         }
-//      }
-//   }
+   @Path("short")
+   @GET
+   public short getShort(short n) {
+	   return short.class.cast(n + 1);
+   }
+
+   @Path("Short")
+   @GET
+   public Short getShortWrapper(Short n) {
+	   return Short.valueOf((short) (n.shortValue() + 1));
+   }
+
+   @Path("int")
+   @GET
+   public int getInt(int n) {
+	   return n + 1;
+   }
+
+   @Path("Integer")
+   @GET
+   public Integer getInteger(Integer n) {
+	   return Integer.valueOf(n.intValue() + 1);
+   }
 }
