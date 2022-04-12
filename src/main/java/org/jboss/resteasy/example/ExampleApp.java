@@ -9,9 +9,9 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("root")
 public class ExampleApp extends Application {
    
-   public Set<Class<?>> getClasses() {
-      Set<Class<?>> set = new HashSet<Class<?>>();
-      set.add(CC1.class);
-      return set;
-   }
+//   public Set<Class<?>> getClasses() {
+//      Set<Class<?>> set = new HashSet<Class<?>>();
+//      set.add(CC1.class);
+//      return set;
+//   }
 } 
