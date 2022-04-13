@@ -76,10 +76,24 @@ public class CC1 {
       return cc6;
    }
    
+   @Path("byte")
+   @POST
+   public byte getByte(byte b) {
+      int i = b + 1;
+      return (byte) i;
+   }
+
+   @Path("Byte")
+   @POST
+   public Byte getByteWrapper(Byte b) {
+      return Byte.valueOf((byte) (b.byteValue() + 1));
+   }
+   
    @Path("short")
    @POST
    public short getShort(short n) {
-      return short.class.cast(n + 1);
+      int i = n + 1;
+      return (short) i;
    }
 
    @Path("Short")
@@ -143,19 +157,19 @@ public class CC1 {
    @Path("async/cs")
    @GET
    public CompletionStage<String> getResponseCompletionStage() {
-	   final CompletableFuture<String> response = new CompletableFuture<>();
-	   Thread t = new Thread() {
-		   @Override
-		   public void run() {
-			   try {
-				   response.complete("cs");
-			   } catch (Exception e) {
-				   response.completeExceptionally(e);
-			   }
-		   }
-	   };
-	   t.start();
-	   return response;
+      final CompletableFuture<String> response = new CompletableFuture<>();
+      Thread t = new Thread() {
+         @Override
+         public void run() {
+            try {
+               response.complete("cs");
+            } catch (Exception e) {
+               response.completeExceptionally(e);
+            }
+         }
+      };
+      t.start();
+      return response;
    }
 
    @Path("cc7")
