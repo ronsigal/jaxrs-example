@@ -2,10 +2,7 @@ package org.jboss.resteasy.example;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
@@ -21,17 +18,10 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.sse.Sse;
-import javax.ws.rs.sse.SseEventSink;
-
-//import org.jboss.test.resteasy.CC1_Server;
 
 @Path("p")
 public class CC1 {
-
-//   private CC1_Server server;
 
    @Path("m1")
    @POST
@@ -187,28 +177,7 @@ public class CC1 {
       CC7 cc7 = new CC7("cc7", 11);
       return Response.ok(cc7).build();
    }
-/*
-   @Path("response/async")
-   @GET
-   public void getResponseAsync(@Suspended final AsyncResponse response) {
-      Thread t = new Thread() {
-         @Override
-         public void run()
-         {
-            try
-            {
-               CC7 cc7 = new CC7("cc7", 11);
-               response.resume(Response.ok(cc7).build());
-            }
-            catch (Exception e)
-            {
-               response.resume(e);
-            }
-         }
-      };
-      t.start();
-   }
-*/ 
+
    @Path("async/cs")
    @GET
    public CompletionStage<String> getResponseCompletionStage() {
@@ -245,7 +214,7 @@ public class CC1 {
    @Consumes("xyz/abc")
    @GET
    public String consumes() {
-	   return "consumes";
+      return "consumes";
    }
 
    @Path("path/{p1}/param/{p2}")
