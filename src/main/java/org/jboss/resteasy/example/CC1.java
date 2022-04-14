@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -75,7 +76,19 @@ public class CC1 {
       CC6 cc6 = new CC6(i + 2, cc7);
       return cc6;
    }
-   
+
+   @Path("boolean")
+   @POST
+   public boolean getBoolean(boolean b) {
+      return !b;
+   }
+
+   @Path("Boolean")
+   @POST
+   public Boolean getBooleanWrapper(Boolean b) {
+      return Boolean.valueOf(!b);
+   }
+
    @Path("byte")
    @POST
    public byte getByte(byte b) {
@@ -125,7 +138,49 @@ public class CC1 {
    public Long getLongWrapper(Long n) {
       return Long.valueOf(n.longValue() + 1);
    }
-   
+
+   @Path("float")
+   @POST
+   public float getFloat(float f) {
+      return Float.valueOf((float) (f + 1.0f));
+   }
+
+   @Path("Float")
+   @POST
+   public Float getFloatWrapper(Float f) {
+      return Float.valueOf((float) (f.floatValue() + 1.0f));
+   }
+
+   @Path("double")
+   @POST
+   public double getDouble(double d) {
+      return Double.valueOf((double) (d + 1.0d));
+   }
+
+   @Path("Double")
+   @POST
+   public Double getDoubleWrapper(Double d) {
+      return Double.valueOf((double) (d.floatValue() + 1.0d));
+   }
+
+   @Path("char")
+   @POST
+   public char getChar(char c) {
+      return Character.toUpperCase(c);
+   }
+
+   @Path("Character")
+   @POST
+   public Character getCharacter(Character c) {
+      return Character.toUpperCase(c);
+   }
+
+   @Path("string")
+   @POST
+   public String getString(String s) {
+      return s.toUpperCase();
+   }
+
    @Path("response")
    @GET
    public Response getResponse() {
@@ -185,7 +240,14 @@ public class CC1 {
    public String produces() {
       return "produces";
    }
-   
+
+   @Path("consumes")
+   @Consumes("xyz/abc")
+   @GET
+   public String consumes() {
+	   return "consumes";
+   }
+
    @Path("path/{p1}/param/{p2}")
    @GET
    public String pathParams(@PathParam("p1") String p1, @PathParam("p2") String p2) {
