@@ -1,8 +1,8 @@
 package org.jboss.resteasy.example;
 
 public class CC4 {
-   private String s;
-   private CC5 cc5;
+   String s;
+   CC5 cc5;
    
    public CC4(String s, CC5 cc5) {
       this.s = s;

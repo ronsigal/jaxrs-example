@@ -22,49 +22,12 @@ import javax.ws.rs.core.Response;
 
 @Path("p")
 public class CC1 {
-
-   @Path("m1")
-   @POST
-   public String m1(CC2 cc2) {
-      return "x";
-   }
-
-   String m2(String s) {
-      return "x";
-   }
-
-   @Path("m3")
-   @POST
-   public String m3(CC4 cc4) {
-      return "x";
-   }
-
-   @Path("m4")
-   @POST
-   public boolean m4(int i) {
-      return true;
-   }
-
-   @Path("m5")
+	
+   @Path("ready")
    @GET
-   public String m5() {
-      return "m5";
-   }
-
-   @Path("m6")
-   @POST
-   public CC4 m6(CC2 cc2) {
-      CC5 cc5 = new CC5(cc2.j);
-      System.out.println("cc2.s: " + cc2.s + ", cc5.k: " + cc5.k);
-      return new CC4(cc2.s, cc5);
-   }
-
-   @Path("m7")
-   @POST
-   public CC6 m7(int i) {
-      CC7 cc7 = new CC7("m7", i + 1);
-      CC6 cc6 = new CC6(i + 2, cc7);
-      return cc6;
+   public String ready() {
+	   System.out.println("gRPC server ready");
+	   return "ready";
    }
 
    @Path("boolean")
@@ -91,7 +54,7 @@ public class CC1 {
    public Byte getByteWrapper(Byte b) {
       return Byte.valueOf((byte) (b.byteValue() + 1));
    }
-   
+
    @Path("short")
    @POST
    public short getShort(short n) {
@@ -202,7 +165,7 @@ public class CC1 {
       CC7 cc7 = new CC7("cc7", 11);
       return cc7;
    }
-   
+
    @Path("produces")
    @Produces("abc/xyz")
    @GET
@@ -240,7 +203,7 @@ public class CC1 {
    public String cookieParams(@CookieParam("c1") Cookie c1, @CookieParam("c2") Cookie c2) {
       return "x" + cookieStringify(c1) + "y" + cookieStringify(c2) + "z";
    }
-   
+
    private String cookieStringify(Cookie c) {
       StringBuilder sb = new StringBuilder();
       sb.append(c.getName())
@@ -258,7 +221,7 @@ public class CC1 {
    public String headerParams(@HeaderParam("h1") String h1, @HeaderParam("h2") String h2) {
       return "x" + h1 + "y" + h2 + "z";
    }
-   
+
    @GET
    @Path("suspend")
    public void suspend(@Suspended final AsyncResponse response) //throws Exception
@@ -281,14 +244,66 @@ public class CC1 {
       };
       t.start();
    }
-   
+
    @GET
    @Path("context")
    public String context(@Context HttpServletRequest request) {
       String contextPath = request.getServletContext().getContextPath();
       return contextPath;
    }
+
+   @Path("inheritance")
+   @POST
+   public CC2 inheritance(CC2 cc2) {
+      return new CC2("x" + cc2.s + "y", cc2.j + 1);
+   }
+
+   @Path("reference")
+   @POST
+   public CC4 referenceField(CC4 cc4) {
+	   CC5 newCC5 = new CC5(cc4.cc5.k + 1);
+	   CC4 newCC4 = new CC4("x" + cc4.s + "y", newCC5);
+//	   CC4 newCC4 = new CC4(cc4.s + 1, newCC5);
+	   return newCC4;
+   }
    
+   String m2(String s) {
+      return "x";
+   }
+
+   @Path("m3")
+   @POST
+   public String m3(CC4 cc4) {
+      return "x";
+   }
+
+   @Path("m4")
+   @POST
+   public boolean m4(int i) {
+      return true;
+   }
+
+   @Path("m5")
+   @GET
+   public String m5() {
+      return "m5";
+   }
+
+//   @Path("m6")
+//   @POST
+//   public CC4 m6(CC2 cc2) {
+//      CC5 cc5 = new CC5(cc2.j);
+//      System.out.println("cc2.s: " + cc2.s + ", cc5.k: " + cc5.k);
+//      return new CC4(cc2.s, cc5);
+//   }
+
+   @Path("m7")
+   @POST
+   public CC6 m7(int i) {
+      CC7 cc7 = new CC7("m7", i + 1);
+      CC6 cc6 = new CC6(i + 2, cc7);
+      return cc6;
+   }
 //   @GET
 //   @Path("sse")
 //   @Produces(MediaType.SERVER_SENT_EVENTS)
