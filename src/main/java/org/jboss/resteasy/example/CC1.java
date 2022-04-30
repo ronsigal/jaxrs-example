@@ -3,22 +3,22 @@ package org.jboss.resteasy.example;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.MatrixParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.container.AsyncResponse;
-import javax.ws.rs.container.Suspended;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.MatrixParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.container.AsyncResponse;
+import jakarta.ws.rs.container.Suspended;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.Response;
 
 @Path("p")
 public class CC1 {
@@ -303,6 +303,17 @@ public class CC1 {
       CC7 cc7 = new CC7("m7", i + 1);
       CC6 cc6 = new CC6(i + 2, cc7);
       return cc6;
+   }
+
+   @Path("servletInfo")
+   @POST
+   public String testServletInfo(@Context HttpServletRequest request) {
+	   String characterEncoding = request.getCharacterEncoding().toUpperCase();
+	   String remoteAddr = request.getRemoteAddr();
+	   remoteAddr = remoteAddr.substring(0, remoteAddr.lastIndexOf(".") + 1) + "5";
+	   String remoteHost = request.getRemoteHost().toUpperCase();
+	   int remotePort = request.getRemotePort() + 1;
+	   return characterEncoding + "|" + remoteAddr + "|" + remoteHost + "|" + remotePort;
    }
 //   @GET
 //   @Path("sse")
