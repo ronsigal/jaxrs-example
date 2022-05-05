@@ -2,7 +2,7 @@ package org.jboss.resteasy.example;
 
 public class CC3 {
 
-   String s;
+   public String s;
    
    public CC3(String s) {
       this.s = s;

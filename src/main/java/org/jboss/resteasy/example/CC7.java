@@ -9,5 +9,5 @@ public class CC7 extends CC3 {
    
    public CC7() {}
    
-   int m;
+   public int m;
 }

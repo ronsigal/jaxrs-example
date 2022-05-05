@@ -2,7 +2,7 @@ package org.jboss.resteasy.example;
 
 public class CC2 extends CC3 {
 
-   int j;
+   public int j;
 
    public CC2(String s, int j) {
       super(s);
