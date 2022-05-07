@@ -1,5 +1,10 @@
 package org.jboss.resteasy.example;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -22,12 +27,12 @@ import jakarta.ws.rs.core.Response;
 
 @Path("p")
 public class CC1 {
-	
+
    @Path("ready")
    @GET
    public String ready() {
-	   System.out.println("gRPC server ready");
-	   return "ready";
+      System.out.println("gRPC server ready");
+      return "ready";
    }
 
    @Path("boolean")
@@ -207,12 +212,12 @@ public class CC1 {
    private String cookieStringify(Cookie c) {
       StringBuilder sb = new StringBuilder();
       sb.append(c.getName())
-        .append("=")
-        .append(c.getValue())
-        .append(";")
-        .append(c.getDomain()).append(",")
-        .append(c.getPath()).append(",")
-        .append(c.getVersion());
+      .append("=")
+      .append(c.getValue())
+      .append(";")
+      .append(c.getDomain()).append(",")
+      .append(c.getPath()).append(",")
+      .append(c.getVersion());
       return sb.toString();
    }
 
@@ -220,6 +225,86 @@ public class CC1 {
    @GET
    public String headerParams(@HeaderParam("h1") String h1, @HeaderParam("h2") String h2) {
       return "x" + h1 + "y" + h2 + "z";
+   }
+
+   @Path("params/{p1}/list/{p1}")
+   @GET
+   public String paramsList(
+         @HeaderParam("h1") final List<String> headerList,
+         @MatrixParam("m1") final List<String> matrixList,
+         @PathParam("p1") final List<String> pathList,
+         @QueryParam("q1") final List<String> queryList
+         ) {
+      StringBuilder sb = new StringBuilder();
+      for (String s : headerList) {
+         sb.append(s);
+      }
+      for (String s : matrixList) {
+         sb.append(s);
+      }
+      for (String s : pathList) {
+         sb.append(s);
+      }
+      for (String s : queryList) {
+         sb.append(s);
+      }
+      return sb.toString();
+   }
+
+   @Path("params/{p1}/set/{p1}")
+   @GET
+   public String paramsSet(
+         @HeaderParam("h1") final Set<String> headerSet,
+         @MatrixParam("m1") final Set<String> matrixSet,
+         @PathParam("p1")   final Set<String> pathSet,
+         @QueryParam("q1")  final Set<String> querySet
+         ) {
+      List<String> headerList = new ArrayList<String>(headerSet);
+      List<String> matrixList = new ArrayList<String>(matrixSet);
+      List<String> pathList =   new ArrayList<String>(pathSet);
+      List<String> queryList =  new ArrayList<String>(querySet);
+      Collections.sort(headerList);
+      Collections.sort(matrixList);
+      Collections.sort(pathList);
+      Collections.sort(queryList);
+      StringBuilder sb = new StringBuilder();
+      for (String s : headerList) {
+         sb.append(s);
+      }
+      for (String s : matrixList) {
+         sb.append(s);
+      }
+      for (String s : pathList) {
+         sb.append(s);
+      }
+      for (String s : queryList) {
+         sb.append(s);
+      }
+      return sb.toString();
+   }
+
+   @Path("params/{p1}/sortedset/{p1}")
+   @GET
+   public String paramsSortedSet(
+         @HeaderParam("h1") final SortedSet<String> headerSet,
+         @MatrixParam("m1") final SortedSet<String> matrixSet,
+         @PathParam("p1") final SortedSet<String> pathSet,
+         @QueryParam("q1") final SortedSet<String> querySet
+         ) {
+      StringBuilder sb = new StringBuilder();
+      for (String s : headerSet) {
+         sb.append(s);
+      }
+      for (String s : matrixSet) {
+         sb.append(s);
+      }
+      for (String s : pathSet) {
+         sb.append(s);
+      }
+      for (String s : querySet) {
+         sb.append(s);
+      }
+      return sb.toString();
    }
 
    @GET
@@ -261,12 +346,12 @@ public class CC1 {
    @Path("reference")
    @POST
    public CC4 referenceField(CC4 cc4) {
-	   CC5 newCC5 = new CC5(cc4.cc5.k + 1);
-	   CC4 newCC4 = new CC4("x" + cc4.s + "y", newCC5);
-//	   CC4 newCC4 = new CC4(cc4.s + 1, newCC5);
-	   return newCC4;
+      CC5 newCC5 = new CC5(cc4.cc5.k + 1);
+      CC4 newCC4 = new CC4("x" + cc4.s + "y", newCC5);
+      //	   CC4 newCC4 = new CC4(cc4.s + 1, newCC5);
+      return newCC4;
    }
-   
+
    String m2(String s) {
       return "x";
    }
@@ -289,13 +374,13 @@ public class CC1 {
       return "m5";
    }
 
-//   @Path("m6")
-//   @POST
-//   public CC4 m6(CC2 cc2) {
-//      CC5 cc5 = new CC5(cc2.j);
-//      System.out.println("cc2.s: " + cc2.s + ", cc5.k: " + cc5.k);
-//      return new CC4(cc2.s, cc5);
-//   }
+   //   @Path("m6")
+   //   @POST
+   //   public CC4 m6(CC2 cc2) {
+   //      CC5 cc5 = new CC5(cc2.j);
+   //      System.out.println("cc2.s: " + cc2.s + ", cc5.k: " + cc5.k);
+   //      return new CC4(cc2.s, cc5);
+   //   }
 
    @Path("m7")
    @POST
@@ -308,30 +393,30 @@ public class CC1 {
    @Path("servletInfo")
    @POST
    public String testServletInfo(@Context HttpServletRequest request) {
-	   String characterEncoding = request.getCharacterEncoding().toUpperCase();
-	   String remoteAddr = request.getRemoteAddr();
-	   remoteAddr = remoteAddr.substring(0, remoteAddr.lastIndexOf(".") + 1) + "5";
-	   String remoteHost = request.getRemoteHost().toUpperCase();
-	   int remotePort = request.getRemotePort() + 1;
-	   return characterEncoding + "|" + remoteAddr + "|" + remoteHost + "|" + remotePort;
+      String characterEncoding = request.getCharacterEncoding().toUpperCase();
+      String remoteAddr = request.getRemoteAddr();
+      remoteAddr = remoteAddr.substring(0, remoteAddr.lastIndexOf(".") + 1) + "5";
+      String remoteHost = request.getRemoteHost().toUpperCase();
+      int remotePort = request.getRemotePort() + 1;
+      return characterEncoding + "|" + remoteAddr + "|" + remoteHost + "|" + remotePort;
    }
-//   @GET
-//   @Path("sse")
-//   @Produces(MediaType.SERVER_SENT_EVENTS)
-//   public void sse(@Context SseEventSink eventSink, @Context Sse sse) {
-//      ExecutorService executor = Executors.newFixedThreadPool(3);
-//      executor.execute(() -> {
-//         try (SseEventSink sink = eventSink) {
-//            System.out.println("sending event1");
-//            eventSink.send(sse.newEvent("event1"));
-//            System.out.println("sent event1");
-//            System.out.println("sending event2");
-//            eventSink.send(sse.newEvent("event2"));
-//            System.out.println("sent event2");
-//            System.out.println("sending event3");
-//            eventSink.send(sse.newEvent("event3"));
-//            System.out.println("send event3");
-//         }
-//      });
-//   }
+   //   @GET
+   //   @Path("sse")
+   //   @Produces(MediaType.SERVER_SENT_EVENTS)
+   //   public void sse(@Context SseEventSink eventSink, @Context Sse sse) {
+   //      ExecutorService executor = Executors.newFixedThreadPool(3);
+   //      executor.execute(() -> {
+   //         try (SseEventSink sink = eventSink) {
+   //            System.out.println("sending event1");
+   //            eventSink.send(sse.newEvent("event1"));
+   //            System.out.println("sent event1");
+   //            System.out.println("sending event2");
+   //            eventSink.send(sse.newEvent("event2"));
+   //            System.out.println("sent event2");
+   //            System.out.println("sending event3");
+   //            eventSink.send(sse.newEvent("event3"));
+   //            System.out.println("send event3");
+   //         }
+   //      });
+   //   }
 }
